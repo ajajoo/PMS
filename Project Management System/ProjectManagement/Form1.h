@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Form3.h"
 namespace ProjectManagement {
 
 	using namespace System;
@@ -222,8 +222,12 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 				}
 				reader->Close();
 				conDataBase->Close();
-				if(isLogin)
+				if(isLogin){
 					MessageBox::Show("Login Successfull.");
+					this->Visible = false;
+					Form3^ frm = gcnew Form3();
+					frm->Show(this);
+				}
 				else
 					MessageBox::Show("Login Unsuccessfull. Please try again.");
 		 }

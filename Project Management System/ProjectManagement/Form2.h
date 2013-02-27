@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Form3.h"
 namespace ProjectManagement {
 
 	using namespace System;
@@ -343,6 +343,9 @@ private: System::Void createaccount_Click(System::Object^  sender, System::Event
 				cmdDataBase->ExecuteNonQuery();
 				conDataBase->Close();
 				MessageBox::Show("You account has been created.");
+				this->Visible = false;
+				Form3^ frm = gcnew Form3();
+				frm->Show(this);
 		 }
 private: System::Void ltype_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
