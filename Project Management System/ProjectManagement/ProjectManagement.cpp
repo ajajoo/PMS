@@ -1,9 +1,10 @@
-// pmstest.cpp : main project file.
+// ProjectManagement.cpp : main project file.
 
 #include "stdafx.h"
+#include "Form2.h"
 #include "Form1.h"
 
-using namespace pmstest;
+using namespace ProjectManagement;
 
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)

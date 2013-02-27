@@ -11,11 +11,11 @@ using namespace System::Security::Permissions;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly:AssemblyTitleAttribute("pmstest")];
+[assembly:AssemblyTitleAttribute("ProjectManagement")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("Microsoft")];
-[assembly:AssemblyProductAttribute("pmstest")];
+[assembly:AssemblyProductAttribute("ProjectManagement")];
 [assembly:AssemblyCopyrightAttribute("Copyright (c) Microsoft 2013")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
