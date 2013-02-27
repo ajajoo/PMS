@@ -34,6 +34,10 @@ namespace ProjectManagement {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::Panel^  panel1;
+	protected: 
+	private: System::Windows::Forms::Panel^  panel2;
+	private: System::Windows::Forms::TextBox^  textBox1;
 
 	private:
 		/// <summary>
@@ -48,15 +52,45 @@ namespace ProjectManagement {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->panel2->SuspendLayout();
 			this->SuspendLayout();
+			// 
+			// panel1
+			// 
+			this->panel1->Location = System::Drawing::Point(11, 26);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(582, 381);
+			this->panel1->TabIndex = 0;
+			// 
+			// panel2
+			// 
+			this->panel2->Controls->Add(this->textBox1);
+			this->panel2->Location = System::Drawing::Point(598, 26);
+			this->panel2->Name = L"panel2";
+			this->panel2->Size = System::Drawing::Size(238, 380);
+			this->panel2->TabIndex = 1;
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(16, 29);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(154, 20);
+			this->textBox1->TabIndex = 0;
 			// 
 			// Form3
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(845, 416);
+			this->Controls->Add(this->panel2);
+			this->Controls->Add(this->panel1);
 			this->Name = L"Form3";
 			this->Text = L"Form3";
+			this->panel2->ResumeLayout(false);
+			this->panel2->PerformLayout();
 			this->ResumeLayout(false);
 
 		}

@@ -39,6 +39,12 @@
     <ClCompile Include="Form3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Form4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Form5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Form1.h">
@@ -57,6 +63,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Form3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Form4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Form5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

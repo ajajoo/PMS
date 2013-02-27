@@ -1,5 +1,7 @@
 #pragma once
 #include "Form3.h"
+#include "Form4.h"
+#include "Form5.h"
 namespace ProjectManagement {
 
 	using namespace System;
@@ -224,9 +226,21 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 				conDataBase->Close();
 				if(isLogin){
 					MessageBox::Show("Login Successfull.");
-					this->Visible = false;
-					Form3^ frm = gcnew Form3();
-					frm->Show(this);
+					if( this->ltype->SelectedIndex == 0 ){	//Investigator
+						this->Visible = false;
+						Form3^ frm = gcnew Form3();
+						frm->Show(this);
+					}
+					else if(this->ltype->SelectedIndex == 1){	//Sponsor
+						this->Visible = false;
+						Form4^ frm = gcnew Form4();
+						frm->Show(this);
+					}
+					else if(this->ltype->SelectedIndex == 2){	//Admin
+						this->Visible = false;
+						Form5^ frm = gcnew Form5();
+						frm->Show(this);
+					}
 				}
 				else
 					MessageBox::Show("Login Unsuccessfull. Please try again.");
