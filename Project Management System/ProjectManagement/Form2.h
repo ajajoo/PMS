@@ -9,6 +9,7 @@ namespace ProjectManagement {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace MySql::Data::MySqlClient;
+	using namespace System::Security::Cryptography;
 
 	/// <summary>
 	/// Summary for Form2
@@ -57,6 +58,8 @@ namespace ProjectManagement {
 
 
 	private: System::Windows::Forms::ComboBox^  dept;
+	private: System::Windows::Forms::Button^  cancel;
+
 
 
 	private:
@@ -86,6 +89,7 @@ namespace ProjectManagement {
 			this->ltype = (gcnew System::Windows::Forms::ComboBox());
 			this->createaccount = (gcnew System::Windows::Forms::Button());
 			this->dept = (gcnew System::Windows::Forms::ComboBox());
+			this->cancel = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -161,6 +165,7 @@ namespace ProjectManagement {
 			this->pwd->Name = L"pwd";
 			this->pwd->Size = System::Drawing::Size(202, 22);
 			this->pwd->TabIndex = 6;
+			this->pwd->UseSystemPasswordChar = true;
 			// 
 			// uname
 			// 
@@ -175,6 +180,7 @@ namespace ProjectManagement {
 			this->cpwd->Name = L"cpwd";
 			this->cpwd->Size = System::Drawing::Size(202, 22);
 			this->cpwd->TabIndex = 8;
+			this->cpwd->UseSystemPasswordChar = true;
 			// 
 			// label6
 			// 
@@ -235,11 +241,24 @@ namespace ProjectManagement {
 			this->dept->TabIndex = 14;
 			this->dept->Text = L"Select";
 			// 
+			// cancel
+			// 
+			this->cancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+			this->cancel->Location = System::Drawing::Point(348, 467);
+			this->cancel->Name = L"cancel";
+			this->cancel->Size = System::Drawing::Size(100, 34);
+			this->cancel->TabIndex = 15;
+			this->cancel->Text = L"Cancel";
+			this->cancel->UseVisualStyleBackColor = true;
+			// 
 			// Form2
 			// 
+			this->AcceptButton = this->createaccount;
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->CancelButton = this->cancel;
 			this->ClientSize = System::Drawing::Size(574, 551);
+			this->Controls->Add(this->cancel);
 			this->Controls->Add(this->dept);
 			this->Controls->Add(this->createaccount);
 			this->Controls->Add(this->ltype);
@@ -258,7 +277,7 @@ namespace ProjectManagement {
 				static_cast<System::Byte>(0)));
 			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"Form2";
-			this->Text = L"Form2";
+			this->Text = L"Create New Account";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -266,12 +285,64 @@ namespace ProjectManagement {
 #pragma endregion
 
 private: System::Void createaccount_Click(System::Object^  sender, System::EventArgs^  e) {
+				
+				// Make sure user provided the name
+				if( this->name->Text == "" )
+				{
+					MessageBox::Show("You must provide your name");
+					return;
+				}				
+
+			    // Make sure the user provided a username
+				if( this->uname->Text == "" )
+				{
+					MessageBox::Show("You must provide a username");
+					return;
+				}
+
+				// Don't allow a blank password
+				if( this->pwd->Text == "" )
+				{
+					MessageBox::Show("Blank passwords are not allowed\n"
+								  "Please provide a password");
+					return;
+				}
+
+				// The password and the confirm password must be the same
+				if( this->cpwd->Text != this->pwd->Text )
+				{
+					MessageBox::Show("The passwords you provided are not the same");
+					return;
+				}
+
+				// check for dept and a/c type
+				if( this->dept->SelectedIndex == -1 || this->ltype->SelectedIndex == -1 || this->ltype->SelectedIndex != this->dept->SelectedIndex )
+				{
+					MessageBox::Show("You must fill the dept from given list.");
+					return;
+				}
+
 				MySqlConnection^ conDataBase=gcnew MySqlConnection("datasource=Localhost;port=3306;username=root;password=arpit") ; // condatabase for establize connection .
-				MySqlCommand^ cmdDataBase=gcnew MySqlCommand("INSERT INTO pms.users (name, uname, pwd, dept, ltype) VALUES (\"Akshay Jajoo\", \"ajajoo\", \"ramram\", 1, 1) ;",conDataBase);
+				String ^quer = "SELECT uname FROM pms.users;";
+				MySqlCommand^ cmdu = gcnew MySqlCommand(quer, conDataBase);
 				conDataBase->Open();
+				MySqlDataReader^ reader = cmdu->ExecuteReader();
+				while (reader->Read())
+				{
+					//String ^str = reader[0]->ToString();
+					//MessageBox::Show(str);
+					if(this->uname->Text == reader[0]->ToString()){
+						MessageBox::Show("Username already exists");
+						return;
+					}
+				}
+				reader->Close();
+				String ^comm = "INSERT INTO pms.users (name, uname, pwd, dept, ltype) VALUES (\""+this->name->Text+"\", \""+this->uname->Text+"\", \""+this->pwd->Text+"\", "+dept->SelectedIndex.ToString()+", "+ltype->SelectedIndex.ToString()+") ;";
+				MySqlCommand^ cmdDataBase=gcnew MySqlCommand(comm, conDataBase);
+				
 				cmdDataBase->ExecuteNonQuery();
 				conDataBase->Close();
-
+				MessageBox::Show("You account has been created.");
 		 }
 private: System::Void ltype_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }

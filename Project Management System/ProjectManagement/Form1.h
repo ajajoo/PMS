@@ -15,6 +15,7 @@ namespace ProjectManagement {
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
 	public:
+		static bool isLogin = false;
 		Form1(void)
 		{
 			InitializeComponent();
@@ -35,13 +36,18 @@ namespace ProjectManagement {
 			}
 		}
 	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::TextBox^  uname;
 	protected: 
-	private: System::Windows::Forms::TextBox^  textBox1;
+
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::TextBox^  textBox3;
-	private: System::Windows::Forms::ComboBox^  comboBox1;
+	private: System::Windows::Forms::TextBox^  pwd;
+	private: System::Windows::Forms::ComboBox^  ltype;
 	private: System::Windows::Forms::Button^  button1;
+
+
+
+
 	private: System::Windows::Forms::Button^  button2;
 
 
@@ -59,11 +65,11 @@ namespace ProjectManagement {
 		void InitializeComponent(void)
 		{
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->uname = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->pwd = (gcnew System::Windows::Forms::TextBox());
+			this->ltype = (gcnew System::Windows::Forms::ComboBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
@@ -79,12 +85,12 @@ namespace ProjectManagement {
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Username :";
 			// 
-			// textBox1
+			// uname
 			// 
-			this->textBox1->Location = System::Drawing::Point(222, 63);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(149, 20);
-			this->textBox1->TabIndex = 1;
+			this->uname->Location = System::Drawing::Point(222, 63);
+			this->uname->Name = L"uname";
+			this->uname->Size = System::Drawing::Size(149, 20);
+			this->uname->TabIndex = 1;
 			// 
 			// label2
 			// 
@@ -108,25 +114,25 @@ namespace ProjectManagement {
 			this->label3->TabIndex = 3;
 			this->label3->Text = L"Login Mode :";
 			// 
-			// textBox3
+			// pwd
 			// 
-			this->textBox3->Location = System::Drawing::Point(222, 129);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(149, 20);
-			this->textBox3->TabIndex = 5;
-			this->textBox3->UseSystemPasswordChar = true;
+			this->pwd->Location = System::Drawing::Point(222, 129);
+			this->pwd->Name = L"pwd";
+			this->pwd->Size = System::Drawing::Size(149, 20);
+			this->pwd->TabIndex = 5;
+			this->pwd->UseSystemPasswordChar = true;
 			// 
-			// comboBox1
+			// ltype
 			// 
-			this->comboBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+			this->ltype->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(3) {L"Investigator", L"Sponsor", L"Administrator"});
-			this->comboBox1->Location = System::Drawing::Point(222, 202);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(149, 26);
-			this->comboBox1->TabIndex = 6;
-			this->comboBox1->Text = L"Select";
+			this->ltype->FormattingEnabled = true;
+			this->ltype->Items->AddRange(gcnew cli::array< System::Object^  >(3) {L"Investigator", L"Sponsor", L"Administrator"});
+			this->ltype->Location = System::Drawing::Point(222, 202);
+			this->ltype->Name = L"ltype";
+			this->ltype->Size = System::Drawing::Size(149, 26);
+			this->ltype->TabIndex = 6;
+			this->ltype->Text = L"Select";
 			// 
 			// button1
 			// 
@@ -159,24 +165,67 @@ namespace ProjectManagement {
 			this->ClientSize = System::Drawing::Size(530, 365);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
-			this->Controls->Add(this->comboBox1);
-			this->Controls->Add(this->textBox3);
+			this->Controls->Add(this->ltype);
+			this->Controls->Add(this->pwd);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->uname);
 			this->Controls->Add(this->label1);
 			this->Name = L"Form1";
-			this->Text = L"Form1";
+			this->Text = L"Login";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
-				Form2^ frm = gcnew Form2;
+				this->Visible = false;
+				Form2^ frm = gcnew Form2();
 				frm->Show(this);
+				//this->Visible = true;
 			 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+				
+				// Make sure the user provided a username
+			 	if( this->uname->Text == "" )
+				{
+					MessageBox::Show("You must provide a username");
+					return;
+				}
+
+				// Don't allow a blank password
+				if( this->pwd->Text == "" )
+				{
+					MessageBox::Show("Blank passwords are not allowed\n"
+								  "Please provide a password");
+					return;
+				}
+
+				// check for a/c type
+				if( this->ltype->SelectedIndex == -1 )
+				{
+					MessageBox::Show("You must fill the login type from given list.");
+					return;
+				}
+
+				MySqlConnection^ conDataBase=gcnew MySqlConnection("datasource=Localhost;port=3306;username=root;password=arpit") ; // condatabase for establize connection .
+				String ^quer = "SELECT uname, pwd, ltype FROM pms.users;";
+				MySqlCommand^ cmdu = gcnew MySqlCommand(quer, conDataBase);
+				conDataBase->Open();
+				MySqlDataReader^ reader = cmdu->ExecuteReader();
+				while (reader->Read())
+				{
+					if(this->uname->Text == reader[0]->ToString() && this->pwd->Text == reader[1]->ToString() && this->ltype->SelectedIndex == (int)reader[2]){
+						isLogin = true;
+						break;
+					}
+				}
+				reader->Close();
+				conDataBase->Close();
+				if(isLogin)
+					MessageBox::Show("Login Successfull.");
+				else
+					MessageBox::Show("Login Unsuccessfull. Please try again.");
 		 }
 };
 }
